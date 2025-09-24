@@ -1,0 +1,9 @@
+scalar Long
+scalar JSON
+
+type Action {
+  id: ID!
+  createdAt: Long!
+  updatedAt: Long
+scalar Long
+scalar JSON

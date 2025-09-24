@@ -1,0 +1,246 @@
+[
+    {
+        "_id": "6296fcad70a0c11ddb89ccf0",
+        "name": "Greeting Message",
+        "description": "",
+        "platforms": [
+            {
+                "integrationId": "woztell-essential-pack",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "TEXT",
+                                        "text": "hello {{firstName}}",
+                                        "id": "WxPXEokG",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 1.0
+            },
+            {
+                "integrationId": "whatsapp-cloud",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "WHATSAPP_REPLY_BUTTONS",
+                                        "header": {
+                                            "type": "text",
+                                            "text": "Hi there, welcome to our booking system 😉"
+                                        },
+                                        "body": {
+                                            "text": "You would like to..."
+                                        },
+                                        "action": {
+                                            "buttons": [
+                                                {
+                                                    "type": "reply",
+                                                    "reply": {
+                                                        "title": "Sign up for Webinar",
+                                                        "payload": "WEBINAR"
+                                                    }
+                                                },
+                                                {
+                                                    "type": "reply",
+                                                    "reply": {
+                                                        "title": "Book for Consulting",
+                                                        "payload": "CONSULT"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "id": "ZPVCmFvV",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 2.0
+            }
+        ],
+        "tags": [],
+        "createdAt": 1654062253768,
+        "updatedAt": 1696993124533
+    },
+    {
+        "_id": "6297171270a0c17c5689cd0c",
+        "name": "Ask for Email",
+        "description": "",
+        "platforms": [
+            {
+                "integrationId": "woztell-essential-pack",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "TEXT",
+                                        "text": "Please enter your email",
+                                        "id": "lQRFKIwH",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 1.0
+            }
+        ],
+        "tags": [],
+        "createdAt": 1654069010275
+    },
+    {
+        "_id": "6297189510f525833b1a9305",
+        "name": "Get Email Response",
+        "description": "",
+        "platforms": [
+            {
+                "integrationId": "woztell-essential-pack",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "TEXT",
+                                        "text": "Thank you for signing up for our webinar!",
+                                        "id": "8Y4Qw8A8",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 1.0
+            }
+        ],
+        "tags": [],
+        "createdAt": 1654069397386
+    },
+    {
+        "_id": "62971a7910f525e2b41a930a",
+        "name": "Booking Timeslot",
+        "description": "",
+        "platforms": [
+            {
+                "integrationId": "woztell-essential-pack",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "TEXT",
+                                        "id": "DsY0emM1",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 1.0
+            },
+            {
+                "integrationId": "whatsapp-cloud",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "WHATSAPP_LIST",
+                                        "header": {},
+                                        "body": {
+                                            "text": "Please select a time slot for the consulting session"
+                                        },
+                                        "action": {
+                                            "button": "Available Time Slot",
+                                            "sections": [
+                                                {
+                                                    "title": "Monday ",
+                                                    "rows": [
+                                                        {
+                                                            "title": "10:00 AM",
+                                                            "payload": "10_AM"
+                                                        },
+                                                        {
+                                                            "title": "12:00 PM",
+                                                            "payload": "12_PM"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "id": "RfQ0iQEV",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 2.0
+            }
+        ],
+        "tags": [],
+        "createdAt": 1654069881839
+    },
+    {
+        "_id": "62971b2970a0c15ccc89cd14",
+        "name": "Timeslot 1 Response",
+        "description": "",
+        "platforms": [
+            {
+                "integrationId": "woztell-essential-pack",
+                "localeGroups": [
+                    {
+                        "localeGroup": "default",
+                        "variations": [
+                            {
+                                "name": "Standard",
+                                "responses": [
+                                    {
+                                        "type": "TEXT",
+                                        "text": "Thanks for the booking. Your consulting session will be on:\n\nMonday, 10:00 AM\n3/F, ABC Building ",
+                                        "id": "G8DIOL5S",
+                                        "transform": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "build": 1.0
+            }
+        ],
+        "tags": [],
+        "createdAt": 1654070057427
+    }
+]
