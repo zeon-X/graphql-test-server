@@ -90,4 +90,3 @@ type NodeObject {
 type Query {
   node(nodeId: ID): NodeObject
 }
-```
