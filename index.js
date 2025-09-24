@@ -4,6 +4,20 @@ const jwt = require("jsonwebtoken");
 
 // GraphQL Schema
 const typeDefs = `
+  type ActionEmailParams {
+    to: String
+    from: String
+    subject: String
+    text: String
+  }
+
+  type ActionParams {
+    to: String
+    from: String
+    subject: String
+    text: String
+  }
+
   type Action {
     id: ID!
     createdAt: String!
@@ -11,8 +25,24 @@ const typeDefs = `
     name: String!
     description: String
     functionString: String
+    params: ActionParams
     resourceTemplateId: ID
     resourceTemplate: ResourceTemplate
+  }
+
+  type TriggerKeyword {
+    caseSensitive: Boolean!
+    keyword: [String!]!
+  }
+
+  type TriggerIndividualTriggers {
+    Email: Boolean
+  }
+
+  type TriggerParams {
+    keywords: [TriggerKeyword]
+    payloads: [String]
+    IndividualTriggers: TriggerIndividualTriggers
   }
 
   type Trigger {
@@ -21,13 +51,14 @@ const typeDefs = `
     updatedAt: String
     name: String!
     description: String
+    params: TriggerParams
     functionString: String
     resourceTemplateId: ID
     resourceTemplate: ResourceTemplate
   }
 
   type Response {
-    id: ID!
+    _id: ID!
     createdAt: String!
     updatedAt: String
     name: String!
@@ -47,9 +78,56 @@ const typeDefs = `
     variations: [ResponseVariation]
   }
 
+  type WhatsAppButton {
+    type: String!
+    reply: WhatsAppButtonReply
+  }
+
+  type WhatsAppButtonReply {
+    id: String
+    title: String
+    payload: String
+  }
+
+  type WhatsAppListSection {
+    title: String
+    rows: [WhatsAppListRow]
+  }
+
+  type WhatsAppListRow {
+    id: String
+    title: String
+    description: String
+    payload: String
+  }
+
+  type WhatsAppListAction {
+    button: String
+    sections: [WhatsAppListSection]
+  }
+
+  type WhatsAppHeader {
+    type: String
+    text: String
+  }
+
+  type WhatsAppBody {
+    text: String
+  }
+
+  type ResponseMessage {
+    type: String!
+    text: String
+    id: String!
+    transform: String
+    header: WhatsAppHeader
+    body: WhatsAppBody
+    action: WhatsAppListAction
+  }
+
   type ResponseVariation {
     name: String!
-    responses: JSON
+    responses: [ResponseMessage]!
   }
 
   type ResourceTemplate {
@@ -62,6 +140,16 @@ const typeDefs = `
     integrationId: String
     functionString: String
     key: String
+  }
+
+  type NodeRedirect {
+    nodeId: ID
+    runPostAction: Boolean
+  }
+
+  type NodePosition {
+    x: Float
+    y: Float
   }
 
   type NodeObject {
@@ -79,16 +167,90 @@ const typeDefs = `
     responseIds: [ID]
     actions: [Action]
     actionIds: [ID]
+    preActions: [Action]
+    postActions: [Action]
     priority: Float
     compositeId: ID
     global: Boolean
     colour: String
+    redirect: NodeRedirect
+    analytics: JSON
+    memberTagging: JSON
+    type: String
+    tags: [String]
+    saveCompositeId: Boolean
+    position: NodePosition
   }
 
   scalar JSON
 
   type Query {
     node(nodeId: ID!): NodeObject
+    nodes: [NodeObject]
+    actions: [Action]
+    triggers: [Trigger]
+    responses: [Response]
+    resourceTemplates: [ResourceTemplate]
+  }
+
+  input ActionParamsInput {
+    to: String
+    from: String
+    subject: String
+    text: String
+  }
+
+  input NodePositionInput {
+    x: Float
+    y: Float
+  }
+
+  input NodeRedirectInput {
+    nodeId: ID
+    runPostAction: Boolean
+  }
+
+  type Mutation {
+    createNode(
+      name: String!
+      description: String
+      triggerId: ID
+      responseIds: [ID]
+      actionIds: [ID]
+      preActions: [ID]
+      postActions: [ID]
+      priority: Float
+      global: Boolean
+      colour: String
+      position: NodePositionInput
+      redirect: NodeRedirectInput
+    ): NodeObject
+
+    updateNode(
+      id: ID!
+      name: String
+      description: String
+      triggerId: ID
+      responseIds: [ID]
+      actionIds: [ID]
+      preActions: [ID]
+      postActions: [ID]
+      priority: Float
+      global: Boolean
+      colour: String
+      position: NodePositionInput
+      redirect: NodeRedirectInput
+    ): NodeObject
+
+    deleteNode(id: ID!): Boolean
+
+    createAction(
+      name: String!
+      description: String
+      functionString: String
+      params: ActionParamsInput
+      resourceTemplateId: ID!
+    ): Action
   }
 `;
 
@@ -152,14 +314,27 @@ const resolvers = {
     actionIds: (node) => node.actions || node.actionIds || [],
     parents: (node) => (node.parents || node.parentIds || []).map(findNodeById),
     parentIds: (node) => node.parents || node.parentIds || [],
+    preActions: (node) =>
+      node.preActions ? node.preActions.map(findActionById) : null,
+    postActions: (node) =>
+      node.postActions ? node.postActions.map(findActionById) : null,
+  },
+  Action: {
+    id: (action) => action._id || action.id,
+    resourceTemplate: (action) =>
+      findResourceTemplateById(action.resourceTemplateId),
+    params: (action) => action.params || null,
   },
   Trigger: {
     resourceTemplate: (trigger) =>
       findResourceTemplateById(trigger.resourceTemplateId),
+    params: (trigger) => trigger.params || null,
   },
-  Action: {
-    resourceTemplate: (action) =>
-      findResourceTemplateById(action.resourceTemplateId),
+  Response: {
+    platforms: (response) => response.platforms || [],
+  },
+  ResponseVariation: {
+    responses: (variation) => variation.responses || [],
   },
 };
 
