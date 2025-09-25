@@ -428,6 +428,26 @@ const resolvers = {
   NodeObject: {
     id: (node) => getNodeId(node),
 
+    preActions: (node, _, { loaders }) => {
+      const ids = Array.isArray(node.preActions ?? node.preActionIds)
+        ? node.preActions ?? node.preActionIds
+        : [];
+      if (!ids.length) return [];
+      return Promise.all(ids.map((id) => loaders.actionLoader.load(id))).then(
+        (list) => list.filter(Boolean)
+      );
+    },
+
+    postActions: (node, _, { loaders }) => {
+      const ids = Array.isArray(node.postActions ?? node.postActionIds)
+        ? node.postActions ?? node.postActionIds
+        : [];
+      if (!ids.length) return [];
+      return Promise.all(ids.map((id) => loaders.actionLoader.load(id))).then(
+        (list) => list.filter(Boolean)
+      );
+    },
+
     // trigger / triggerId
     trigger: (node, _, { loaders }) => {
       const id = node.trigger ?? node.triggerId;
@@ -507,7 +527,34 @@ const resolvers = {
   },
 
   Response: {
-    platforms: (response) => response.platforms || [],
+    // platforms: (response) => response.platforms || [],
+    platforms: (response) => {
+      const raw = Array.isArray(response.platforms) ? response.platforms : [];
+
+      // Map legacy shapes and filter out nulls/bad entries
+      const normalized = raw
+        .filter(Boolean) // removes literal null entries
+        .map((p) => {
+          // If your DB sometimes uses integrationId/localeGroups (older shape),
+          // coerce it into the current { platform, variations } shape.
+          if (p && (p.integrationId || p.localeGroups)) {
+            return {
+              platform: p.integrationId ?? "unknown", // must be non-null per SDL
+              variations: Array.isArray(p.localeGroups)
+                ? p.localeGroups.flatMap((g) => g?.variations ?? [])
+                : [],
+            };
+          }
+          // Otherwise assume it's already in the new shape
+          return p;
+        })
+        // Ensure we never return an object without a platform string
+        .filter(
+          (p) => typeof p?.platform === "string" && p.platform.trim().length > 0
+        );
+
+      return normalized;
+    },
   },
 
   ResponseVariation: {
