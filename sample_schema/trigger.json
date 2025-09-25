@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "params": {
+      "type": "object",
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "caseSensitive": {
+                "type": "boolean"
+              },
+              "keyword": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "caseSensitive",
+              "keyword"
+            ]
+          }
+        },
+        "payloads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "IndividualTriggers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "functionString": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "resourceTemplateId": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "_id",
+    "name",
+    "params",
+    "resourceTemplateId",
+    "createdAt"
+  ]
+}
