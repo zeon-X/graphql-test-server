@@ -255,11 +255,11 @@ const typeDefs = `
 `;
 
 // Load JSON data
-const nodes = require("./data/node.json");
-const triggers = require("./data/trigger.json");
-const responses = require("./data/response.json");
-const actions = require("./data/action.json");
-const resourceTemplates = require("./data/resourceTemplate.json");
+const nodes = require("./db/node.json");
+const triggers = require("./db/trigger.json");
+const responses = require("./db/response.json");
+const actions = require("./db/action.json");
+const resourceTemplates = require("./db/resourceTemplate.json");
 
 // JWT secret from env
 const JWT_SECRET = process.env.JWT_SECRET || "test_secret";
@@ -267,7 +267,7 @@ const PORT = process.env.PORT || 4000;
 
 // Helper functions to find by ID
 function findNodeById(id) {
-  return nodes.find((n) => n._id === id || n.id === id);
+  return nodes.find((n) => n._id === id || n.id === id || n.compositeId === id);
 }
 function findTriggerById(id) {
   return triggers.find((t) => t._id === id);
@@ -312,8 +312,13 @@ const resolvers = {
     actions: (node) =>
       (node.actions || node.actionIds || []).map(findActionById),
     actionIds: (node) => node.actions || node.actionIds || [],
-    parents: (node) => (node.parents || node.parentIds || []).map(findNodeById),
-    parentIds: (node) => node.parents || node.parentIds || [],
+    parents: (node, _, __, info) => {
+      // Use parentIds if present, else parents
+      const parentIds = node.parentIds || node.parents || [];
+      // Recursively resolve parents
+      return parentIds.map((id) => findNodeById(id));
+    },
+    parentIds: (node) => node.parentIds || node.parents || [],
     preActions: (node) =>
       node.preActions ? node.preActions.map(findActionById) : null,
     postActions: (node) =>

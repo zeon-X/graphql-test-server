@@ -1,0 +1,106 @@
+{
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/node" }
+    },
+    "actions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/actionInstance" }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/actionDefinition" },
+          { "$ref": "#/definitions/triggerDefinition" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "trigger": { "type": ["string", "null"] },
+        "preActions": { "type": ["array", "null"], "items": { "type": "string" } },
+        "responses": { "type": ["array", "null"], "items": { "type": "string" } },
+        "postActions": { "type": ["array", "null"], "items": { "type": "string" } },
+        "actions": { "type": ["array", "null"], "items": { "type": "string" } },
+        "compositeId": { "type": ["string", "null"] },
+        "global": { "type": "boolean" },
+        "redirect": {
+          "type": ["object", "null"],
+          "properties": {
+            "nodeCompositeId": { "type": "string" },
+            "sendResponse": { "type": "boolean" },
+            "runPreAction": { "type": "boolean" },
+            "runPostAction": { "type": "boolean" }
+          }
+        },
+        "parents": { "type": ["array", "null"], "items": { "type": "string" } },
+        "root": { "type": ["boolean", "null"] },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          },
+          "required": ["x", "y"]
+        },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["_id", "name", "global", "saveCompositeId", "createdAt", "updatedAt", "position"]
+    },
+    "actionInstance": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "functionString": { "type": ["string", "null"] },
+        "params": { "type": "object", "additionalProperties": { "type": "string" } },
+        "resourceTemplateId": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["_id", "name", "params", "resourceTemplateId", "createdAt", "updatedAt"]
+    },
+    "actionDefinition": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "type": { "const": "action" },
+        "name": { "type": "string" },
+        "integrationId": { "type": "string" },
+        "functionString": { "type": "string" },
+        "schema": { "type": "object" },
+        "requestedVerification": { "type": "boolean" },
+        "verified": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["_id", "type", "name", "integrationId", "functionString", "schema", "verified", "published", "createdAt"]
+    },
+    "triggerDefinition": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "type": { "const": "trigger" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "schema": { "type": "object" },
+        "integrationId": { "type": "string" },
+        "functionString": { "type": "string" },
+        "key": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["_id", "type", "name", "schema", "integrationId", "functionString", "key", "updatedAt"]
+    }
+  }
+}

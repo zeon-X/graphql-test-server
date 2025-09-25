@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "_id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "functionString": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "null" }
+      ]
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "resourceTemplateId": { "type": "string" },
+    "createdAt": { "type": "number" },
+    "updatedAt": { "type": "number" }
+  },
+  "required": ["_id", "name", "params", "resourceTemplateId", "createdAt", "updatedAt"]
+}
