@@ -5,8 +5,8 @@
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/zeon-X/graphql-test-server.git
-cd graphql-test-server/structured-server
+git clone [https://github.com/zeon-X/graphql-test-server.git](https://github.com/zeon-X/graphql-test-server.git)
+cd graphql-test-server
 ```
 
 ### 2. Install Dependencies
