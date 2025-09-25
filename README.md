@@ -17,7 +17,7 @@ npm install
 
 ### 3. Create `.env` File
 
-Create a `.env` file in the `structured-server` folder with the following content:
+Create a `.env` file in the root folder with the following content:
 
 ```
 JWT_SECRET=test_secret
@@ -36,7 +36,7 @@ npm start
 - When the server starts, it will print a sample JWT token in the console.
 
 **Screenshot:**  
-_Add an image here showing the terminal with the JWT token output._
+<img width="591" height="146" alt="Screenshot 2025-09-26 at 1 19 20 AM" src="https://github.com/user-attachments/assets/ce34bb08-09c0-4ec5-8112-463e38e9fd0e" />
 
 ---
 
@@ -55,7 +55,7 @@ _Add an image here showing the terminal with the JWT token output._
 Replace `<your_token>` with the JWT token from the server output.
 
 **Screenshot:**  
-_Add an image here showing the header set in Apollo Studio._
+<img width="1838" height="1052" alt="Screenshot 2025-09-26 at 01-18-26 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/5cce6b19-4c22-4d93-88aa-eb5e9baaa434" />
 
 ---
 
@@ -98,7 +98,7 @@ Example variables (pick a valid nodeId from your data):
 ```
 
 **Screenshot:**  
-_Add an image here showing the variables set in Apollo Studio._
+<img width="1960" height="1050" alt="Screenshot 2025-09-26 at 01-18-35 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/ac136ad3-a757-4683-97cb-698788e86a74" />
 
 ---
 
@@ -108,7 +108,7 @@ _Add an image here showing the variables set in Apollo Studio._
 - You should see the nested data returned.
 
 **Screenshot:**  
-_Add an image here showing the query result._
+<img width="2940" height="1456" alt="Screenshot 2025-09-26 at 01-18-44 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/b758b5c4-11c6-42f3-8234-fc0a9d604535" />
 
 ---
 
@@ -125,12 +125,7 @@ _Add an image here showing the query result._
     resourceTemplate.json
     response.json
     trigger.json
-  sample-schema/
-    action.txt
-    node.txt
-    resourceTemplate.txt
-    response.txt
-    trigger.txt
+ 
   ```
 - _Note: The project is currently unstructured due to time constraints, but all logic and data are ready for recursive or nested fetching. The system can resolve almost any query within the sample-schema definitions._
 
