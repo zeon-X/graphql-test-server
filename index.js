@@ -5,11 +5,13 @@ const DataLoader = require("dataloader");
 const { GraphQLScalarType, Kind } = require("graphql");
 
 /**
- * Your original schema (unchanged)
- * NOTE: we rename it to baseTypeDefs and then extend it below.
+ * =========================
+ *   GraphQL SDL (with Long)
+ * =========================
  */
 const baseTypeDefs = `
   scalar JSON
+  scalar Long
 
   type ActionEmailParams {
     to: String
@@ -27,8 +29,8 @@ const baseTypeDefs = `
 
   type Action {
     _id: ID!
-    createdAt: String!
-    updatedAt: String
+    createdAt: Long!
+    updatedAt: Long
     name: String!
     description: String
     functionString: String
@@ -55,8 +57,8 @@ const baseTypeDefs = `
 
   type Trigger {
     _id: ID!
-    createdAt: String!
-    updatedAt: String
+    createdAt: Long!
+    updatedAt: Long
     name: String!
     description: String
     params: TriggerParams
@@ -118,16 +120,16 @@ const baseTypeDefs = `
 
   type Response {
     _id: ID!
-    createdAt: String!
-    updatedAt: String
+    createdAt: Long!
+    updatedAt: Long
     name: String!
     platforms: [ResponsePlatform]!
   }
 
   type ResourceTemplate {
     _id: ID!
-    createdAt: String!
-    updatedAt: String
+    createdAt: Long!
+    updatedAt: Long
     name: String!
     description: String
     schema: String
@@ -135,8 +137,8 @@ const baseTypeDefs = `
 
   type NodeObject {
     id: ID!
-    createdAt: String!
-    updatedAt: String
+    createdAt: Long!
+    updatedAt: Long
     name: String!
     description: String
     parents: [NodeObject]
@@ -303,9 +305,7 @@ const baseTypeDefs = `
   }
 `;
 
-/**
- * Safe, cycle-aware recursive traversal
- */
+// Safe, cycle-aware recursive traversal
 const extraTypeDefs = `
   extend type NodeObject {
     ancestors(depth: Int = 10, unique: Boolean = true): [NodeObject!]!
@@ -315,18 +315,30 @@ const extraTypeDefs = `
 // Final typeDefs (original + extension)
 const typeDefs = [baseTypeDefs, extraTypeDefs].join("\n");
 
-// ---- Load JSON data (unchanged path layout) ----
+/**
+ * =========================
+ *         Data loads
+ * =========================
+ */
 const nodes = require("./db/node.json");
 const triggers = require("./db/trigger.json");
 const responses = require("./db/response.json");
 const actions = require("./db/action.json");
 const resourceTemplates = require("./db/resourceTemplate.json");
 
-// ---- Config ----
+/**
+ * =========================
+ *         Config
+ * =========================
+ */
 const JWT_SECRET = process.env.JWT_SECRET || "test_secret";
 const PORT = process.env.PORT || 4000;
 
-// ---- ID helpers & lookup maps ----
+/**
+ * =========================
+ *      Lookup helpers
+ * =========================
+ */
 const getNodeId = (n) => n?._id ?? n?.id ?? n?.compositeId ?? null;
 const getActionId = (a) => a?._id ?? a?.id ?? null;
 const getResponseId = (r) => r?._id ?? r?.id ?? null;
@@ -352,7 +364,11 @@ function loadNodeFlexible(id) {
 const asIdArray = (val) =>
   val == null ? [] : Array.isArray(val) ? val : [val];
 
-// ---- DataLoaders (avoid N+1) ----
+/**
+ * =========================
+ *        DataLoaders
+ * =========================
+ */
 function buildLoaders() {
   return {
     nodeLoader: new DataLoader(async (keys) =>
@@ -373,7 +389,11 @@ function buildLoaders() {
   };
 }
 
-// ---- Auth + context (add loaders to context) ----
+/**
+ * =========================
+ *       Auth Context
+ * =========================
+ */
 const context = ({ req }) => {
   const auth = req.headers.authorization || "";
   if (!auth.startsWith("Bearer ")) throw new Error("Missing Bearer token");
@@ -386,48 +406,114 @@ const context = ({ req }) => {
   return { loaders: buildLoaders() };
 };
 
-// ---- Resolvers (DataLoader + safe recursion) ----
+/**
+ * =========================
+ *        Scalars
+ * =========================
+ */
+function parseJsonLiteral(ast) {
+  switch (ast.kind) {
+    case Kind.STRING:
+    case Kind.BOOLEAN:
+      return ast.value;
+    case Kind.INT:
+    case Kind.FLOAT:
+      return parseFloat(ast.value);
+    case Kind.OBJECT: {
+      const value = Object.create(null);
+      ast.fields.forEach((field) => {
+        value[field.name.value] = parseJsonLiteral(field.value);
+      });
+      return value;
+    }
+    case Kind.LIST:
+      return ast.values.map(parseJsonLiteral);
+    default:
+      return null;
+  }
+}
+
+const JSONScalar = new GraphQLScalarType({
+  name: "JSON",
+  description: "Arbitrary JSON value",
+  parseValue: (value) => value,
+  serialize: (value) => value,
+  parseLiteral: parseJsonLiteral,
+});
+
+const LongScalar = new GraphQLScalarType({
+  name: "Long",
+  description:
+    "64-bit integer; accepts number or numeric string. Returns number when safe.",
+  serialize(value) {
+    if (typeof value === "number") return value;
+    if (typeof value === "string" && value.trim() !== "" && !isNaN(value)) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : value;
+    }
+    throw new TypeError(`Long cannot serialize value: ${value}`);
+  },
+  parseValue(value) {
+    if (typeof value === "number") return value;
+    if (typeof value === "string" && value.trim() !== "" && !isNaN(value)) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : value;
+    }
+    throw new TypeError(`Long cannot parse value: ${value}`);
+  },
+  parseLiteral(ast) {
+    if (ast.kind === Kind.INT) return Number(ast.value);
+    if (ast.kind === Kind.STRING && !isNaN(ast.value)) {
+      const n = Number(ast.value);
+      return Number.isFinite(n) ? n : ast.value;
+    }
+    return null;
+  },
+});
+
+/**
+ * =========================
+ *        Resolvers
+ * =========================
+ */
 const resolvers = {
   Query: {
     node: (_, { nodeId }) => loadNodeFlexible(nodeId),
-    nodes: () => nodes, // handy for browsing/debug
+    nodes: () => nodes,
     actions: () => actions,
     triggers: () => triggers,
     responses: () => responses,
     resourceTemplates: () => resourceTemplates,
   },
 
-  JSON: new GraphQLScalarType({
-    name: "JSON",
-    description: "Arbitrary JSON value",
-    parseValue: (value) => value,
-    serialize: (value) => value,
-    parseLiteral: (ast) => {
-      switch (ast.kind) {
-        case Kind.STRING:
-        case Kind.BOOLEAN:
-          return ast.value;
-        case Kind.INT:
-        case Kind.FLOAT:
-          return parseFloat(ast.value);
-        case Kind.OBJECT: {
-          const value = Object.create(null);
-          ast.fields.forEach((field) => {
-            value[field.name.value] = parseLiteral(field.value);
-          });
-          return value;
-        }
-        case Kind.LIST:
-          return ast.values.map(parseLiteral);
-        default:
-          return null;
-      }
-    },
-  }),
+  JSON: JSONScalar,
+  Long: LongScalar,
 
   NodeObject: {
     id: (node) => getNodeId(node),
 
+    // Trigger
+    trigger: (node, _, { loaders }) => {
+      const id = node.trigger ?? node.triggerId;
+      return id ? loaders.triggerLoader.load(id) : null;
+    },
+    triggerId: (node) => node.trigger ?? node.triggerId ?? null,
+
+    // Responses
+    responses: (node, _, { loaders }) => {
+      const ids = asIdArray(node.responses ?? node.responseIds);
+      return Promise.all(ids.map((id) => loaders.responseLoader.load(id)));
+    },
+    responseIds: (node) => asIdArray(node.responses ?? node.responseIds),
+
+    // Actions
+    actions: (node, _, { loaders }) => {
+      const ids = asIdArray(node.actions ?? node.actionIds);
+      return Promise.all(ids.map((id) => loaders.actionLoader.load(id)));
+    },
+    actionIds: (node) => asIdArray(node.actions ?? node.actionIds),
+
+    // Pre/Post actions (map IDs -> objects and filter nulls)
     preActions: (node, _, { loaders }) => {
       const ids = Array.isArray(node.preActions ?? node.preActionIds)
         ? node.preActions ?? node.preActionIds
@@ -437,7 +523,6 @@ const resolvers = {
         (list) => list.filter(Boolean)
       );
     },
-
     postActions: (node, _, { loaders }) => {
       const ids = Array.isArray(node.postActions ?? node.postActionIds)
         ? node.postActions ?? node.postActionIds
@@ -448,39 +533,17 @@ const resolvers = {
       );
     },
 
-    // trigger / triggerId
-    trigger: (node, _, { loaders }) => {
-      const id = node.trigger ?? node.triggerId;
-      return id ? loaders.triggerLoader.load(id) : null;
-    },
-    triggerId: (node) => node.trigger ?? node.triggerId ?? null,
-
-    // responses / responseIds
-    responses: (node, _, { loaders }) => {
-      const ids = asIdArray(node.responses ?? node.responseIds);
-      return Promise.all(ids.map((id) => loaders.responseLoader.load(id)));
-    },
-    responseIds: (node) => asIdArray(node.responses ?? node.responseIds),
-
-    // actions / actionIds
-    actions: (node, _, { loaders }) => {
-      const ids = asIdArray(node.actions ?? node.actionIds);
-      return Promise.all(ids.map((id) => loaders.actionLoader.load(id)));
-    },
-    actionIds: (node) => asIdArray(node.actions ?? node.actionIds),
-
-    // parents / parentIds (plain recursion via GraphQL)
+    // Parents
     parents: (node, _, { loaders }) => {
       const parentIds = asIdArray(node.parentIds ?? node.parents);
       return Promise.all(parentIds.map((id) => loaders.nodeLoader.load(id)));
     },
     parentIds: (node) => asIdArray(node.parentIds ?? node.parents),
 
-    // NEW: cycle-safe, bounded recursion
+    // Bounded, cycle-safe ancestors
     ancestors: async (node, { depth = 10, unique = true }, { loaders }) => {
       const seen = new Set();
       const out = [];
-
       const enqueue = (n) => {
         const id = getNodeId(n);
         if (!id) return false;
@@ -489,11 +552,8 @@ const resolvers = {
         out.push(n);
         return true;
       };
-
-      // BFS up the parent chain with depth bound
       let frontier = asIdArray(node.parentIds ?? node.parents);
       let level = 0;
-
       while (frontier.length && level < depth) {
         const batch = await Promise.all(
           frontier.map((id) => loaders.nodeLoader.load(id))
@@ -507,7 +567,6 @@ const resolvers = {
         }
         level += 1;
       }
-
       return out;
     },
   },
@@ -526,43 +585,52 @@ const resolvers = {
     },
   },
 
+  // Normalize platforms to satisfy platform: String!
   Response: {
-    // platforms: (response) => response.platforms || [],
     platforms: (response) => {
       const raw = Array.isArray(response.platforms) ? response.platforms : [];
-
-      // Map legacy shapes and filter out nulls/bad entries
       const normalized = raw
-        .filter(Boolean) // removes literal null entries
+        .filter(Boolean)
         .map((p) => {
-          // If your DB sometimes uses integrationId/localeGroups (older shape),
-          // coerce it into the current { platform, variations } shape.
+          // Legacy shape { integrationId, localeGroups } -> new { platform, variations }
           if (p && (p.integrationId || p.localeGroups)) {
             return {
-              platform: p.integrationId ?? "unknown", // must be non-null per SDL
+              platform: p.integrationId ?? "unknown",
               variations: Array.isArray(p.localeGroups)
                 ? p.localeGroups.flatMap((g) => g?.variations ?? [])
                 : [],
             };
           }
-          // Otherwise assume it's already in the new shape
+          // Already correct shape
           return p;
         })
-        // Ensure we never return an object without a platform string
         .filter(
           (p) => typeof p?.platform === "string" && p.platform.trim().length > 0
         );
-
       return normalized;
     },
   },
 
+  // Keep variations list safe
   ResponseVariation: {
     responses: (variation) => variation.responses || [],
   },
+
+  // Serialize ResourceTemplate.schema if DB stored an object
+  ResourceTemplate: {
+    schema: (rt) => {
+      const s = rt.schema;
+      if (s == null) return null;
+      return typeof s === "string" ? s : JSON.stringify(s);
+    },
+  },
 };
 
-// ---- Server ----
+/**
+ * =========================
+ *         Server
+ * =========================
+ */
 const server = new ApolloServer({ typeDefs, resolvers, context });
 
 server.listen({ port: PORT }).then(({ url }) => {
