@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "properties": {
+    "_id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "integrationId": { "type": "string" },
+          "localeGroups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "localeGroup": { "type": "string" },
+                "variations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "responses": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": { "type": "string" },
+                            "id": { "type": "string" },
+                            "transform": { "type": "string" },
+                            "text": { "type": "string" },
+                            "header": { "type": "object" },
+                            "body": { "type": "object" },
+                            "action": { "type": "object" }
+                          },
+                          "required": ["type", "id"]
+                        }
+                      }
+                    },
+                    "required": ["name", "responses"]
+                  }
+                }
+              },
+              "required": ["localeGroup", "variations"]
+            }
+          },
+          "build": { "type": "number" }
+        },
+        "required": ["integrationId", "localeGroups", "build"]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "createdAt": { "type": "number" },
+    "updatedAt": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "required": ["_id", "name", "platforms", "createdAt"]
+}

@@ -1,0 +1,17 @@
+[
+    {
+        "_id": "6530933e6a1690d2f0c78a92",
+        "name": "Send Email Action",
+        "description": "",
+        "functionString": null,
+        "params": {
+            "to": "leosoccer@test.com",
+            "from": "leo@test.com",
+            "subject": "Testing Prod Email",
+            "text": "Sending Success"
+        },
+        "resourceTemplateId": "62cfc19bf4573e1b32ca2295",
+        "createdAt": 1697682238144,
+        "updatedAt": 1697682238144
+    }
+]

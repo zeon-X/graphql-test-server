@@ -1,0 +1,77 @@
+[
+    {
+        "_id": "629712b210f525845e1a92f8",
+        "name": "Keyword: Say Hi",
+        "description": "",
+        "params": {
+            "keywords": [
+                {
+                    "caseSensitive": false,
+                    "keyword": [
+                        "hi",
+                        "hello",
+                        "hey"
+                    ]
+                }
+            ]
+        },
+        "functionString": null,
+        "resourceTemplateId": "61e9ba20f9b581f25a2dbf51",
+        "createdAt": 1654067890224
+    },
+    {
+        "_id": "629716db70a0c1202689cd0a",
+        "name": "Payload: WEBINAR",
+        "description": "",
+        "params": {
+            "keywords": [],
+            "payloads": [
+                "WEBINAR"
+            ]
+        },
+        "functionString": null,
+        "resourceTemplateId": "61e9ba20f9b581f25a2dbf51",
+        "createdAt": 1654068955016
+    },
+    {
+        "_id": "6297176c10f525b8a81a9304",
+        "name": "Email Trigger",
+        "description": "",
+        "params": {
+            "IndividualTriggers": {
+                "Email": true
+            }
+        },
+        "functionString": null,
+        "resourceTemplateId": "61e9ba20f9b58155162dbf52",
+        "createdAt": 1654069100236
+    },
+    {
+        "_id": "6297193110f5255a271a9307",
+        "name": "Payload: CONSULT",
+        "description": "",
+        "params": {
+            "keywords": [],
+            "payloads": [
+                "CONSULT"
+            ]
+        },
+        "functionString": null,
+        "resourceTemplateId": "61e9ba20f9b581f25a2dbf51",
+        "createdAt": 1654069553350
+    },
+    {
+        "_id": "62971ad610f525424f1a930b",
+        "name": "Payload: 10_AM",
+        "description": "",
+        "params": {
+            "keywords": [],
+            "payloads": [
+                "10_AM"
+            ]
+        },
+        "functionString": null,
+        "resourceTemplateId": "61e9ba20f9b581f25a2dbf51",
+        "createdAt": 1654069974465
+    }
+]

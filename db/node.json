@@ -1,0 +1,207 @@
+[
+    {
+        "_id": "6296be3470a0c1052f89cccb",
+        "name": "Greeting Message",
+        "description": "",
+        "trigger": null,
+        "preActions": null,
+        "responses": [
+            "6296fcad70a0c11ddb89ccf0"
+        ],
+        "postActions": null,
+        "actions": null,
+        "compositeId": "V78P4OA9maz31ORn",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654046260304,
+        "updatedAt": 1696991678515,
+        "parents": [],
+        "root": true,
+        "position": {
+            "x": 0.0,
+            "y": 0.0
+        }
+    },
+    {
+        "_id": "6297005470a0c10d6b89ccf1",
+        "name": "Greeting Message Global",
+        "description": "",
+        "trigger": "629712b210f525845e1a92f8",
+        "preActions": null,
+        "responses": null,
+        "postActions": null,
+        "actions": null,
+        "compositeId": null,
+        "global": true,
+        "redirect": {
+            "nodeCompositeId": "V78P4OA9maz31ORn",
+            "sendResponse": true,
+            "runPreAction": true,
+            "runPostAction": true
+        },
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654063188547,
+        "updatedAt": 1690790880192,
+        "parents": null,
+        "root": null
+    },
+    {
+        "_id": "6297164810f52524ba1a9300",
+        "name": "Sign up Webinar",
+        "description": "",
+        "trigger": "629716db70a0c1202689cd0a",
+        "preActions": null,
+        "responses": [
+            "6297171270a0c17c5689cd0c"
+        ],
+        "postActions": null,
+        "actions": null,
+        "compositeId": "rCMUtmL3aOULyqBL",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654068808589,
+        "updatedAt": 1696991678931,
+        "parents": [
+            "V78P4OA9maz31ORn"
+        ],
+        "root": false,
+        "position": {
+            "x": 199.0,
+            "y": 0.0
+        }
+    },
+    {
+        "_id": "6297172e70a0c165b989cd10",
+        "name": "User's Email",
+        "description": "",
+        "trigger": "6297176c10f525b8a81a9304",
+        "preActions": null,
+        "responses": [
+            "6297189510f525833b1a9305"
+        ],
+        "postActions": [
+            "6530933e6a1690d2f0c78a92"
+        ],
+        "actions": null,
+        "compositeId": "L2ZrxYMqAW44L5tB",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654069038783,
+        "updatedAt": 1696991678725,
+        "parents": [
+            "rCMUtmL3aOULyqBL"
+        ],
+        "root": false,
+        "position": {
+            "x": 406.0,
+            "y": 0.0
+        }
+    },
+    {
+        "_id": "629718ba70a0c1836d89cd12",
+        "name": "Book for Consulting",
+        "description": "",
+        "trigger": "6297193110f5255a271a9307",
+        "preActions": null,
+        "responses": [
+            "62971a7910f525e2b41a930a"
+        ],
+        "postActions": null,
+        "actions": null,
+        "compositeId": "XTpR0HkNpxWjJ6eG",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654069434341,
+        "updatedAt": 1696991679555,
+        "parents": [
+            "V78P4OA9maz31ORn"
+        ],
+        "root": false,
+        "position": {
+            "x": 199.0,
+            "y": 53.0
+        }
+    },
+    {
+        "_id": "62971a9570a0c12bb389cd13",
+        "name": "10AM Timeslot",
+        "description": "",
+        "trigger": "62971ad610f525424f1a930b",
+        "preActions": null,
+        "responses": [
+            "62971b2970a0c15ccc89cd14"
+        ],
+        "postActions": null,
+        "actions": null,
+        "compositeId": "Er9xF8cOr7oVrrvj",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654069909520,
+        "updatedAt": 1696991679141,
+        "parents": [
+            "XTpR0HkNpxWjJ6eG"
+        ],
+        "root": false,
+        "position": {
+            "x": 406.0,
+            "y": 53.0
+        }
+    },
+    {
+        "_id": "62971b3470a0c1803c89cd15",
+        "name": "12PM Timeslot",
+        "description": "",
+        "trigger": null,
+        "preActions": null,
+        "responses": null,
+        "postActions": null,
+        "actions": null,
+        "compositeId": "cqBGDrKZrRqiMJpz",
+        "global": false,
+        "redirect": null,
+        "analytics": null,
+        "memberTagging": null,
+        "type": null,
+        "tags": null,
+        "saveCompositeId": true,
+        "createdAt": 1654070068308,
+        "parents": [
+            "XTpR0HkNpxWjJ6eG"
+        ],
+        "root": false,
+        "updatedAt": 1696991679345,
+        "position": {
+            "x": 406.0,
+            "y": 106.0
+        }
+    }
+]
