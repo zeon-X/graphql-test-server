@@ -34,7 +34,7 @@
    - On startup, a sample JWT token is printed in the console.
    - Example output:
 
-     ![npm start screenshot](./assets/npm-start-ss.png)
+     <img width="713" height="109" alt="Screenshot 2025-09-28 at 3 18 14 AM" src="https://github.com/user-attachments/assets/19c12870-79aa-4d9c-9395-6e3f8809a087" />
 
 ---
 
@@ -133,7 +133,8 @@ npm test
 
 Example output:
 
-![npm test pass screenshot](./assets/npm-test-pass-ss.png)
+<img width="486" height="291" alt="Screenshot 2025-09-28 at 3 17 11 AM" src="https://github.com/user-attachments/assets/0ec5eb4f-84ee-494b-8931-bf745a08e83d" />
+
 
 You can add your own tests in the `tests/` directory or run individual files with:
 
