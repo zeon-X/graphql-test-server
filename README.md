@@ -1,5 +1,7 @@
 # GraphQL API Server – Backend Coding Test
 
+---
+
 ## Quick Start
 
 1. **Clone the repository:**
@@ -30,6 +32,9 @@
    ```
    - The server runs at [http://localhost:4000](http://localhost:4000) by default.
    - On startup, a sample JWT token is printed in the console.
+   - Example output:
+
+     ![npm start screenshot](./assets/npm-start-ss.png)
 
 ---
 
@@ -79,8 +84,9 @@
 
 4. **Run the query:**
    - Click "Run" to execute and view nested results.
-   - <img width="1809" height="1117" alt="Screenshot 2025-09-28 at 03-14-38 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/3dfd5221-086b-4956-822b-b4b6552f9cf9" />
+   - Example result:
 
+      <img width="1809" height="1117" alt="Screenshot 2025-09-28 at 03-14-38 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/3dfd5221-086b-4956-822b-b4b6552f9cf9" />
 
 ---
 
@@ -108,11 +114,11 @@
 │   ├── scalars.js
 │   └── schema.js
 └── tests
-    ├── crossLinkTorture.test.js
-    ├── fourLevelParentChain.test.js
-    ├── multiAliasBatch.test.js
-    ├── nodeQuery.test.js
-    └── toggleSections.test.js
+      ├── crossLinkTorture.test.js
+      ├── fourLevelParentChain.test.js
+      ├── multiAliasBatch.test.js
+      ├── nodeQuery.test.js
+      └── toggleSections.test.js
 ```
 
 ---
@@ -125,7 +131,11 @@ Automated tests are provided in the `tests` folder. To run all tests:
 npm test
 ```
 
-This will execute all test suites using Jest. You can add your own tests in the `tests/` directory or run individual files with:
+Example output:
+
+![npm test pass screenshot](./assets/npm-test-pass-ss.png)
+
+You can add your own tests in the `tests/` directory or run individual files with:
 
 ```sh
 npx jest tests/<test-file>.js
@@ -134,6 +144,8 @@ npx jest tests/<test-file>.js
 Test files cover query shapes, resolver logic, and edge cases. Review them for sample queries and expected results.
 
 ---
+
+## Notes
 
 - The system supports recursive and nested fetching for all major types.
 - Sample queries and mutations are available in the test files for reference.
