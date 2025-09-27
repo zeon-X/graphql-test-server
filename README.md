@@ -93,7 +93,8 @@
    - Click "Run" to execute and view nested results.
    - Example result:
 
-      <img width="1852" height="1370" alt="Screenshot 2025-09-28 at 03-26-06 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/53583c4b-2546-48c8-9124-4723dec31763" />
+    <img width="1257" height="1149" alt="Screenshot 2025-09-28 at 03-28-41 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/aa2c9b10-480b-40dc-add3-5b7bed8b28dd" />
+
 
 
 ---
