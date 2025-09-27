@@ -1,6 +1,10 @@
+// @MD.SHEFAT ZEON
+// tests/crossLinkTorture.test.js
+
 const { ApolloServer } = require("apollo-server");
 const { resolvers } = require("../src/resolvers.js");
 const { typeDefs } = require("../src/schema.js");
+const { buildLoaders } = require("../src/loaders.js"); // <-- Add this line
 
 describe("CrossLinkTorture Query", () => {
   let server;
@@ -9,7 +13,10 @@ describe("CrossLinkTorture Query", () => {
     server = new ApolloServer({
       typeDefs,
       resolvers,
-      context: () => ({ user: { id: "test-user" } }),
+      context: () => ({
+        user: { id: "test-user" },
+        loaders: buildLoaders(), // <-- Add loaders to context
+      }),
     });
   });
 
