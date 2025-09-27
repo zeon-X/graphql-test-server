@@ -116,16 +116,26 @@ Example variables (pick a valid nodeId from your data):
 
 - **Folder Structure:**
   ```
-  index.js
-  package.json
-  README.md
-  db/
-    action.json
-    node.json
-    resourceTemplate.json
-    response.json
-    trigger.json
- 
+  .
+  ├── index.js
+  ├── package.json
+  ├── README.md
+  └── src
+    ├── auth.js
+    ├── config.js
+    ├── dataLoads.js
+    ├── db
+    │   ├── action.json
+    │   ├── node.json
+    │   ├── resourceTemplate.json
+    │   ├── response.json
+    │   └── trigger.json
+    ├── helpers.js
+    ├── loaders.js
+    ├── resolvers.js
+    ├── scalars.js
+    └── schema.js
+
   ```
 - _Note: The project is currently unstructured due to time constraints, but all logic and data are ready for recursive or nested fetching. The system can resolve almost any query within the sample-schema definitions._
 

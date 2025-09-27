@@ -4,16 +4,16 @@
  * =========================
  */
 
-import DataLoader from "dataloader";
-import {
+const DataLoader = require("dataloader");
+const {
   actionById,
   loadNodeFlexible,
   responseById,
   rtById,
   triggerById,
-} from "./helpers.js";
+} = require("./helpers");
 
-export function buildLoaders() {
+function buildLoaders() {
   return {
     nodeLoader: new DataLoader(async (keys) =>
       keys.map((k) => loadNodeFlexible(k))
@@ -32,3 +32,5 @@ export function buildLoaders() {
     ),
   };
 }
+
+module.exports = { buildLoaders };

@@ -307,4 +307,6 @@ const extraTypeDefs = `
 `;
 
 // Final typeDefs (original + extension)
-export const typeDefs = [baseTypeDefs, extraTypeDefs].join("\n");
+const typeDefs = [baseTypeDefs, extraTypeDefs].join("\n");
+
+module.exports = { typeDefs };

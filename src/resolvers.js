@@ -1,19 +1,19 @@
-import {
+const {
   actions,
   nodes,
   resourceTemplates,
   responses,
   triggers,
-} from "./dataLoads.js";
-import { asIdArray, getNodeId, loadNodeFlexible } from "./helpers.js";
-import { JSONScalar, LongScalar } from "./scalars.js";
+} = require("./dataLoads");
+const { asIdArray, getNodeId, loadNodeFlexible } = require("./helpers");
+const { JSONScalar, LongScalar } = require("./scalars");
 
 /**
  * =========================
  *        Resolvers
  * =========================
  */
-export const resolvers = {
+const resolvers = {
   Query: {
     node: (_, { nodeId }) => loadNodeFlexible(nodeId),
     nodes: () => nodes,
@@ -162,3 +162,5 @@ export const resolvers = {
     },
   },
 };
+
+module.exports = { resolvers };

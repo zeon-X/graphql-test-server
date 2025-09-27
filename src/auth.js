@@ -1,14 +1,8 @@
-/**
- * =========================
- *       Auth Context
- * =========================
- */
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("./config");
+const { buildLoaders } = require("./loaders");
 
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "./config.js";
-import { buildLoaders } from "./loaders.js";
-
-export const context = ({ req }) => {
+module.exports.context = ({ req }) => {
   const auth = req.headers.authorization || "";
   if (!auth.startsWith("Bearer ")) throw new Error("Missing Bearer token");
   const token = auth.replace("Bearer ", "");

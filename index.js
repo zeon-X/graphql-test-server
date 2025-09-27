@@ -1,12 +1,12 @@
 // @MD.SHEFAT ZEON
 
-import { ApolloServer } from "apollo-server";
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
-import { context } from "./src/auth.js";
-import { JWT_SECRET, PORT } from "./src/config.js";
-import { resolvers } from "./src/resolvers.js";
-import { typeDefs } from "./src/schema.js";
+const { ApolloServer } = require("apollo-server");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+const { context } = require("./src/auth");
+const { JWT_SECRET, PORT } = require("./src/config");
+const { resolvers } = require("./src/resolvers");
+const { typeDefs } = require("./src/schema");
 
 dotenv.config();
 

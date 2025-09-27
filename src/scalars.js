@@ -4,7 +4,7 @@
  * =========================
  */
 
-import { GraphQLScalarType, Kind } from "graphql";
+const { GraphQLScalarType, Kind } = require("graphql");
 
 function parseJsonLiteral(ast) {
   switch (ast.kind) {
@@ -28,7 +28,7 @@ function parseJsonLiteral(ast) {
   }
 }
 
-export const JSONScalar = new GraphQLScalarType({
+const JSONScalar = new GraphQLScalarType({
   name: "JSON",
   description: "Arbitrary JSON value",
   parseValue: (value) => value,
@@ -36,7 +36,7 @@ export const JSONScalar = new GraphQLScalarType({
   parseLiteral: parseJsonLiteral,
 });
 
-export const LongScalar = new GraphQLScalarType({
+const LongScalar = new GraphQLScalarType({
   name: "Long",
   description:
     "64-bit integer; accepts number or numeric string. Returns number when safe.",
@@ -65,3 +65,5 @@ export const LongScalar = new GraphQLScalarType({
     return null;
   },
 });
+
+module.exports = { JSONScalar, LongScalar };
