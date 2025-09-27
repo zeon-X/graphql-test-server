@@ -1,142 +1,123 @@
-# Backend Coding Test - GraphQL API Server
+# GraphQL API Server – Backend Coding Test
 
-## How to Run This Project
+## Quick Start
 
-### 1. Clone the Repository
+1. **Clone the repository:**
 
-```sh
-git clone https://github.com/zeon-X/graphql-test-server.git
-cd graphql-test-server
-```
+   ```sh
+   git clone https://github.com/zeon-X/graphql-test-server.git
+   cd graphql-test-server
+   ```
 
-### 2. Install Dependencies
+2. **Install dependencies:**
 
-```sh
-npm install
-```
+   ```sh
+   npm install
+   ```
 
-### 3. Create `.env` File
+3. **Configure environment:**
 
-Create a `.env` file in the root folder with the following content:
+   - Create a `.env` file in the project root:
+     ```
+     JWT_SECRET=test_secret
+     PORT=4000
+     ```
+   - You may change these values as needed.
 
-```
-JWT_SECRET=test_secret
-PORT=4000
-```
-
-_(You can change these values if needed.)_
-
-### 4. Start the Server
-
-```sh
-npm start
-```
-
-- The server will run at [http://localhost:4000](http://localhost:4000) by default.
-- When the server starts, it will print a sample JWT token in the console.
-
-**Screenshot:**  
-<img width="591" height="146" alt="Screenshot 2025-09-26 at 1 19 20 AM" src="https://github.com/user-attachments/assets/ce34bb08-09c0-4ec5-8112-463e38e9fd0e" />
+4. **Start the server:**
+   ```sh
+   npm start
+   ```
+   - The server runs at [http://localhost:4000](http://localhost:4000) by default.
+   - On startup, a sample JWT token is printed in the console.
 
 ---
 
-## 5. Open Apollo Studio (or GraphQL Playground)
+## Using GraphQL Playground / Apollo Studio
 
-### a. Set Authentication Header
+1. **Set the Authorization header:**
 
-- In the "Headers" section, add:
+   ```json
+   {
+     "Authorization": "Bearer <your_token>"
+   }
+   ```
 
-```json
-{
-  "Authorization": "Bearer <your_token>"
-}
+   Replace `<your_token>` with the JWT token from the server output.
+
+2. **Example Query:**
+
+   ```graphql
+   query Node($nodeId: ID!) {
+     node(nodeId: $nodeId) {
+       name
+       triggerId
+       trigger {
+         _id
+         resourceTemplateId
+       }
+       responseIds
+       actionIds
+       parentIds
+       parents {
+         name
+         description
+         actionIds
+         parentIds
+       }
+     }
+   }
+   ```
+
+3. **Example Variables:**
+
+   ```json
+   {
+     "nodeId": "6296be3470a0c1052f89cccb"
+   }
+   ```
+
+4. **Run the query:**
+   - Click "Run" to execute and view nested results.
+
+---
+
+## Project Structure
+
+```
+.
+├── babel.config.js
+├── index.js
+├── package.json
+├── README.md
+├── src
+│   ├── auth.js
+│   ├── config.js
+│   ├── dataLoads.js
+│   ├── db
+│   │   ├── action.json
+│   │   ├── node.json
+│   │   ├── resourceTemplate.json
+│   │   ├── response.json
+│   │   └── trigger.json
+│   ├── helpers.js
+│   ├── loaders.js
+│   ├── resolvers.js
+│   ├── scalars.js
+│   └── schema.js
+└── tests
+    ├── crossLinkTorture.test.js
+    ├── fourLevelParentChain.test.js
+    ├── multiAliasBatch.test.js
+    ├── nodeQuery.test.js
+    └── toggleSections.test.js
 ```
 
-Replace `<your_token>` with the JWT token from the server output.
-
-**Screenshot:**  
-<img width="1838" height="1052" alt="Screenshot 2025-09-26 at 01-18-26 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/5cce6b19-4c22-4d93-88aa-eb5e9baaa434" />
-
 ---
 
-### b. Set Query
+## Notes
 
-Paste this query in the query editor:
-
-```graphql
-query Node($nodeId: ID!) {
-  node(nodeId: $nodeId) {
-    name
-    triggerId
-    trigger {
-      _id
-      resourceTemplateId
-    }
-    responseIds
-    actionIds
-    parentIds
-    parents {
-      name
-      description
-      actionIds
-      parentIds
-    }
-  }
-}
-```
-
----
-
-### c. Set Variables
-
-Example variables (pick a valid nodeId from your data):
-
-```json
-{
-  "nodeId": "6296be3470a0c1052f89cccb"
-}
-```
-
-**Screenshot:**  
-<img width="1960" height="1050" alt="Screenshot 2025-09-26 at 01-18-35 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/ac136ad3-a757-4683-97cb-698788e86a74" />
-
----
-
-### d. Run the Query and View Results
-
-- Click "Run" to execute the query.
-- You should see the nested data returned.
-
-**Screenshot:**  
-<img width="2940" height="1456" alt="Screenshot 2025-09-26 at 01-18-44 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/b758b5c4-11c6-42f3-8234-fc0a9d604535" />
-
----
-
-## About the Project
-
-- **Folder Structure:**
-  ```
-  .
-  ├── index.js
-  ├── package.json
-  ├── README.md
-  └── src
-    ├── auth.js
-    ├── config.js
-    ├── dataLoads.js
-    ├── db
-    │   ├── action.json
-    │   ├── node.json
-    │   ├── resourceTemplate.json
-    │   ├── response.json
-    │   └── trigger.json
-    ├── helpers.js
-    ├── loaders.js
-    ├── resolvers.js
-    ├── scalars.js
-    └── schema.js
-
-  ```
-- _Note: The project is currently unstructured due to time constraints, but all logic and data are ready for recursive or nested fetching. The system can resolve almost any query within the sample-schema definitions._
-
----
+- The system supports recursive and nested fetching for all major types.
+- Sample queries and mutations are available in the test files for reference.
+- JWT authentication is required for all requests (see server output for a sample token).
+- All logic and data are ready for deep GraphQL queries as defined in the schema.
