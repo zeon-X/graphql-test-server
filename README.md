@@ -69,6 +69,13 @@
          description
          actionIds
          parentIds
+         parents
+         {  
+           name
+           description
+           actionIds
+           parentIds
+         }
        }
      }
    }
@@ -86,7 +93,8 @@
    - Click "Run" to execute and view nested results.
    - Example result:
 
-      <img width="1809" height="1117" alt="Screenshot 2025-09-28 at 03-14-38 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/3dfd5221-086b-4956-822b-b4b6552f9cf9" />
+      <img width="1852" height="1370" alt="Screenshot 2025-09-28 at 03-26-06 Explorer Sandbox Studio" src="https://github.com/user-attachments/assets/53583c4b-2546-48c8-9124-4723dec31763" />
+
 
 ---
 
