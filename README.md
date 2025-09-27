@@ -1,7 +1,5 @@
 # GraphQL API Server – Backend Coding Test
 
----
-
 ## Quick Start
 
 1. **Clone the repository:**
@@ -36,7 +34,7 @@
 
      <img width="713" height="109" alt="Screenshot 2025-09-28 at 3 18 14 AM" src="https://github.com/user-attachments/assets/19c12870-79aa-4d9c-9395-6e3f8809a087" />
 
----
+
 
 ## Using GraphQL Playground / Apollo Studio
 
@@ -97,7 +95,7 @@
 
 
 
----
+
 
 ## Project Structure
 
@@ -130,7 +128,6 @@
       └── toggleSections.test.js
 ```
 
----
 
 ## Running Tests
 
