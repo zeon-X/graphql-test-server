@@ -115,7 +115,23 @@
 
 ---
 
-## Notes
+## Running Tests
+
+Automated tests are provided in the `tests` folder. To run all tests:
+
+```sh
+npm test
+```
+
+This will execute all test suites using Jest. You can add your own tests in the `tests/` directory or run individual files with:
+
+```sh
+npx jest tests/<test-file>.js
+```
+
+Test files cover query shapes, resolver logic, and edge cases. Review them for sample queries and expected results.
+
+---
 
 - The system supports recursive and nested fetching for all major types.
 - Sample queries and mutations are available in the test files for reference.
